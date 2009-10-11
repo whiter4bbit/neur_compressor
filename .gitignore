@@ -1,0 +1,10 @@
+*~
+*.dump
+*.pyc
+*.png
+build
+comp
+pics
+
+
+
