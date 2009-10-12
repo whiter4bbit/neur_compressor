@@ -27,9 +27,9 @@ class ImageCompressor(object):
     def compress(self, out):
         w,h = self.img.size
         netw = self.build_netw()
-        parts_ = netw.teach(20)[2]
+        parts_ = netw.teach(100)[2]
 
-        compr = gluet(parts_, h, w, self.n*2, self.m)
+        compr = gluet(parts_, h, w, self.n, self.m)
 
         img = Image.new("RGBA", (w,h))
         img.save(out)

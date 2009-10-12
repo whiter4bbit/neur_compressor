@@ -1,4 +1,4 @@
-from matr import transf, mult, mult_const, transp, minus, norm, Matrix,splitt, detransf, gluet, m_debug
+from matr import transf, detransf, Matrix,splitt, m_debug
 
 from random import random
 
@@ -78,23 +78,23 @@ class CompressNetw(NeurNetw):
     def __init__(self, n,m, p, img):
         NeurNetw.__init__(self, n*m, p)
         self.X = [Matrix([x]) for x in transf(splitt(img,n,m))]
-        with open('x.dump','w') as f:
-            for matr in self.X:
-                f.write(m_debug(matr.m))
+#        with open('x.dump','w') as f:
+#            for matr in self.X:
+#                f.write(m_debug(matr.m))
         self.L = len(self.X)
         self.N = n*m
         self.Z = ((self.N+self.L)*self.p+2)/float(self.N*self.L)
         print "Z:%2.2f" % self.Z
         print "created matrix with %d components" % len(self.X)
 
-    def teach_layer(self, layer, max_iters):
+    def teach_layer(self, layer, alpha, max_iters):
         iters = 0
         error = 1e308
         while error>.02 and iters<max_iters:
             E = []
             X_ = []
             for i in xrange(len(self.X)):
-                t = self.layers[layer].teach(self.layers, self.X[i], .01)
+                t = self.layers[layer].teach(self.layers, self.X[i], alpha)
                 dX = t[0]
                 E.append(sum(e*e for e in dX.m[0]))
                 X_.append(t[1].m[0])
@@ -107,12 +107,6 @@ class CompressNetw(NeurNetw):
     def teach(self, max_iters):
         NeurNetw.re_init(self)
         print "teaching 1st layer:"
-        self.teach_layer(1, max_iters)
+        self.teach_layer(1, .01, max_iters)
         print "teaching 2nd layer:"
-        return self.teach_layer(0, max_iters)
-
-    def compress_img(self):
-        X_ = []
-        for i in xrange(len(self.X)):
-            X_.append(NeurNetw.compress(self,  self.X[i]).m[0])
-        return Matrix(transf(X_))
+        return self.teach_layer(0, .01, max_iters*3)

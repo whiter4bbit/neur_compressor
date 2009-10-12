@@ -6,7 +6,25 @@ def m_debug(X):
     for l in X:  str_+="%s\n" % str(l)
     return str_
 
+def flat_square(m, i, j, h, w):
+    part = []
+    for sub in [a for a in m[i:i+h] ]:
+        part.extend(sub[j:j+w])
+    subp = [[p[k] for p in part] for k in xrange(3)]
+    return subp
+
 def splitt(m, h, w):
+    parts = []
+    for i in xrange(0, len(m), h):
+        for j in xrange(0, len(m[0]), w):
+            diff_i, diff_j = i, j
+            if i+h>len(m) or j+w>len(m[0]):
+                if i+h>len(m): diff_i = len(m)-h
+                if j+j>len(m[0]): diff_j = len(m[0])-w
+            parts.extend(flat_square(m, diff_i, diff_j, h, w))
+    return parts
+
+def splitt_(m, h, w):
     parts, i, j = [], 0, 0
     for i in xrange(0,len(m),h):
         for j in xrange(0,len(m[0]),w):
