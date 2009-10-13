@@ -8,6 +8,8 @@ class ImageCompressor(object):
         self.img = img
         self.n = n
         self.m = m
+        self.handlers = []
+        self.netw = self.build_netw()
 
     def load(self):
         w,h = self.img.size
@@ -21,28 +23,27 @@ class ImageCompressor(object):
 
     def build_netw(self):
         rgbm = self.load()
-        compr = CompressNetw(self.n,self.m,self.n*2, rgbm)
+        compr = CompressNetw(self.n,self.m,self.n*self.m*3, rgbm)
         return compr
 
     def compress(self, out):
         w,h = self.img.size
-        netw = self.build_netw()
-        parts_ = netw.teach(100)[2]
-
+        self.netw.iter_handlers = self.handlers
+        parts_ = self.netw.teach(4)[2]
         compr = gluet(parts_, h, w, self.n, self.m)
-
         img = Image.new("RGBA", (w,h))
         img.save(out)
         for i in xrange(h):
             for j in xrange(w):
                 img.putpixel( (j,i) , compr[i][j])
-        img.save(out)
+        return img
+        #img.save(out)
 
 import sys
 
-print sys.argv
+if __name__=="__main__":
+    print sys.argv
 
-img = Image.open(sys.argv[1])
-imgcompr = ImageCompressor(img,int(sys.argv[2]),int(sys.argv[3]))
-imgcompr.compress('compressed.png')
-
+    img = Image.open(sys.argv[1])
+    imgcompr = ImageCompressor(img,int(sys.argv[2]),int(sys.argv[3]))
+    imgcompr.compress('compressed.png')
