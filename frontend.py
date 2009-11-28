@@ -8,6 +8,7 @@ from img_compressor import ImageCompressor
 import Image
 
 class CompressThread(QThread):
+
     def __init__(self, parent, params, handler):
         QThread.__init__(self, parent)
         self.img = params['img']
@@ -27,7 +28,7 @@ class CompressThread(QThread):
         self.compr = ImageCompressor(img, self.n, self.m, self.p)
         self.compr.handlers = [self.handler]
         compr = self.compr.compress(self.params)
-        self.emit(SIGNAL('compressed'), compr)
+        self.emit(SIGNAL('compressed'), compr['img'])
 
 class MainWnd(QMainWindow):
     def __init__(self):
@@ -35,6 +36,14 @@ class MainWnd(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.init_app()
+        self.get_title("")
+
+    def get_title(self, msg):
+        if len(msg)>0:
+            title = self.tr("Compress neuron network (%s)" % msg)
+        else:
+            title = self.tr("Compress neuron network")
+        self.setWindowTitle(title)
 
     def init_app(self):
         self.src_image = None
@@ -92,7 +101,8 @@ class MainWnd(QMainWindow):
         elif layer==1:
             self.ui.teachW2ProgressBar.setMaximum(teach_info['max_iters'])
             self.ui.teachW2ProgressBar.setValue(teach_info['iter'])
-        self.debug("Error: %2.5f Alpha: %2.5f, Alpha': %2.5f" % (teach_info['error'], teach_info['alpha'], teach_info['alpha_']))
+        self.debug("Iteration: %d Error: %2.5f Alpha: %2.5f, Alpha': %2.5f" % (teach_info['c_iter'], \
+                                                                                   teach_info['error'], teach_info['alpha'], teach_info['alpha_']))
 
     def compr_handler(self, img):
         img.save('out.png')
@@ -104,16 +114,18 @@ class MainWnd(QMainWindow):
         self.ui.comprScrollArea.setWidget(self.dest_label)
 
     def debug(self, msg):
-        self.ui.debugEdit.setText(self.ui.debugEdit.toHtml()+msg)
+        self.ui.debugEdit.setText(msg+"\n"+self.ui.debugEdit.toPlainText())
 
     def teach_process(self):
         n = int(self.ui.nEdit.text())
         m = int(self.ui.mEdit.text())
         p = int(self.ui.pEdit.text())
+        e_max = float(self.ui.errorSpinBox.value())
+        alpha = float(self.ui.alphaSpinBox.value())
 
         max_iters =  int(self.ui.maxIterationsSB.value())
 
-        params = {'n':n, 'm':m, 'p':p, 'alpha':.01, 'alpha_':.01, 'out':'compressed.png',\
+        params = {'e_max':e_max, 'n':n, 'm':m, 'p':p, 'alpha':alpha, 'alpha_':alpha, 'out':'compressed.png',\
 'img':str(self.srcFileName), 'iters':max_iters}
 
         if self.ui.adaptiveW1checkBox.checkState()==Qt.Checked:

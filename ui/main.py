@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui/main.ui'
 #
-# Created: Wed Oct 14 01:47:55 2009
+# Created: Wed Oct 14 14:41:05 2009
 #      by: PyQt4 UI code generator 4.5.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -98,11 +98,11 @@ class Ui_MainWindow(object):
         self.formLayout_3.setWidget(0, QtGui.QFormLayout.FieldRole, self.label_4)
         self.maxIterationsSB = QtGui.QSpinBox(self.formLayoutWidget_3)
         self.maxIterationsSB.setMaximum(10000)
-        self.maxIterationsSB.setProperty("value", QtCore.QVariant(40))
+        self.maxIterationsSB.setProperty("value", QtCore.QVariant(4))
         self.maxIterationsSB.setObjectName("maxIterationsSB")
         self.formLayout_3.setWidget(1, QtGui.QFormLayout.FieldRole, self.maxIterationsSB)
         self.formLayoutWidget_4 = QtGui.QWidget(self.centralwidget)
-        self.formLayoutWidget_4.setGeometry(QtCore.QRect(190, 370, 271, 52))
+        self.formLayoutWidget_4.setGeometry(QtCore.QRect(190, 370, 221, 52))
         self.formLayoutWidget_4.setObjectName("formLayoutWidget_4")
         self.formLayout_4 = QtGui.QFormLayout(self.formLayoutWidget_4)
         self.formLayout_4.setObjectName("formLayout_4")
@@ -112,6 +112,27 @@ class Ui_MainWindow(object):
         self.comprLevelEdit = QtGui.QLineEdit(self.formLayoutWidget_4)
         self.comprLevelEdit.setObjectName("comprLevelEdit")
         self.formLayout_4.setWidget(1, QtGui.QFormLayout.LabelRole, self.comprLevelEdit)
+        self.label_6 = QtGui.QLabel(self.formLayoutWidget_4)
+        self.label_6.setObjectName("label_6")
+        self.formLayout_4.setWidget(0, QtGui.QFormLayout.FieldRole, self.label_6)
+        self.errorSpinBox = QtGui.QDoubleSpinBox(self.formLayoutWidget_4)
+        self.errorSpinBox.setSingleStep(0.01)
+        self.errorSpinBox.setProperty("value", QtCore.QVariant(0.01))
+        self.errorSpinBox.setObjectName("errorSpinBox")
+        self.formLayout_4.setWidget(1, QtGui.QFormLayout.FieldRole, self.errorSpinBox)
+        self.formLayoutWidget_5 = QtGui.QWidget(self.centralwidget)
+        self.formLayoutWidget_5.setGeometry(QtCore.QRect(430, 391, 151, 31))
+        self.formLayoutWidget_5.setObjectName("formLayoutWidget_5")
+        self.formLayout_5 = QtGui.QFormLayout(self.formLayoutWidget_5)
+        self.formLayout_5.setObjectName("formLayout_5")
+        self.label_7 = QtGui.QLabel(self.formLayoutWidget_5)
+        self.label_7.setObjectName("label_7")
+        self.formLayout_5.setWidget(0, QtGui.QFormLayout.LabelRole, self.label_7)
+        self.alphaSpinBox = QtGui.QDoubleSpinBox(self.formLayoutWidget_5)
+        self.alphaSpinBox.setSingleStep(0.001)
+        self.alphaSpinBox.setProperty("value", QtCore.QVariant(0.01))
+        self.alphaSpinBox.setObjectName("alphaSpinBox")
+        self.formLayout_5.setWidget(0, QtGui.QFormLayout.FieldRole, self.alphaSpinBox)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 877, 24))
@@ -144,6 +165,8 @@ class Ui_MainWindow(object):
         self.adaptiveW2checkBox.setText(QtGui.QApplication.translate("MainWindow", "Adaptive?", None, QtGui.QApplication.UnicodeUTF8))
         self.label_4.setText(QtGui.QApplication.translate("MainWindow", "Max teaching iterations:", None, QtGui.QApplication.UnicodeUTF8))
         self.label_5.setText(QtGui.QApplication.translate("MainWindow", "Compression level:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_6.setText(QtGui.QApplication.translate("MainWindow", "Max error:", None, QtGui.QApplication.UnicodeUTF8))
+        self.label_7.setText(QtGui.QApplication.translate("MainWindow", "Alpha:", None, QtGui.QApplication.UnicodeUTF8))
         self.menuImage.setTitle(QtGui.QApplication.translate("MainWindow", "Image", None, QtGui.QApplication.UnicodeUTF8))
         self.actionOpen.setText(QtGui.QApplication.translate("MainWindow", "Open", None, QtGui.QApplication.UnicodeUTF8))
 
